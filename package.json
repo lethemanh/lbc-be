@@ -1,0 +1,19 @@
+{
+  "name": "bautomcuaca",
+  "version": "1.0.0",
+  "description": "Ilec project",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lenawesome/BauTomCuaCa.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Lenawesome/BauTomCuaCa/issues"
+  },
+  "homepage": "https://github.com/Lenawesome/BauTomCuaCa#readme"
+}
