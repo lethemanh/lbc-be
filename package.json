@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/Lenawesome/BauTomCuaCa/issues"
   },
-  "homepage": "https://github.com/Lenawesome/BauTomCuaCa#readme"
+  "homepage": "https://github.com/Lenawesome/BauTomCuaCa#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.12.14"
+  }
 }
