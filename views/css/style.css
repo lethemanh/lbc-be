@@ -1,0 +1,25 @@
+.navbar {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+}
+
+.nav-item {
+    font-family: 'Roboto Slab', serif;
+    margin: 0px 10px;
+}
+
+#navbarNavDropdown {
+    position: relative;
+    top: 15px;
+    left: 30px;
+    cursor: pointer;
+}
+
+#logo-baucua {
+    position: relative;
+    top: 15px;
+    left: 20px;
+}
