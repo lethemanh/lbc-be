@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Bầu Cua</title>
+    <link rel="icon" type="image/x-icon" href="./images/icon.png" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <!-- header  -->
+    <header>
+
+    </header>
+
+    <!-- menu  -->
+
+    <!-- main  -->
+    <main>
+
+        <div class="container">
+            <div class="head">
+                <div class="info-user">
+                    <h1>Xin chào</h1>
+                    <h1>Bạn đang có: <strong id="user-money"></strong>$ </h1>
+                </div>
+                
+                <div class="spin">
+                    <button type="button" class="btn btn-danger" id="btn-spin">Bắt đầu</button>
+                </div>
+            </div>
+
+            <div class="row">
+                
+                <!-- game  -->
+                <div id="game" class="col-sm-3">
+                    <div class="select">                
+                        <input type="image" class="img-select" src="./images/bau.png" alt="" name="" value="Bầu" />
+                    </div>
+                    <div class="select">
+                        <input type="image" class="img-select" src="./images/ga.png" alt="" name="" value="Gà" />
+                    </div>
+                    <div class="select">
+                        <input type="image" class="img-select" src="./images/nai.png" alt="" name="" value="Nai" />
+                    </div>
+                    <div class="select">
+                        <input type="image" class="img-select" src="./images/tom.png" alt="" name="" value="Tôm" />
+                    </div>
+                    <div class="select">
+                        <input type="image" class="img-select" src="./images/cua.png" alt="" name="" value="Cua" />
+                    </div>
+                    <div class="select">
+                        <input type="image" class="img-select" src="./images/ca.png" alt="" name="" value="Cá" />
+                    </div>
+
+                    <!-- end-select  -->
+
+
+                    <div class="enter-money" style="display: none;">
+                        <div class="btnclose">
+                            <button type="button" class="btn-close " id="close-enter-money" aria-label="Close"></button>
+                        </div>
+                        
+                        <div class="center">
+                            <h1>Đặt cược</h1>
+                            <form method="post" id="form-bet">
+                              <div class="txt_field">
+                                <input id="input-money" type="text" required>
+                                <span></span>
+                                <label>Nhập số tiền bạn muốn cược</label>
+                              </div>
+                              <input id="submit-money" type="submit" value="Cược luôn" onclick="return false">
+                            </form>
+                          </div>
+                    </div>
+                </div>
+
+                <!-- noti  -->
+                <div class="col-sm-8 col-xl-4 noti">
+                    <!-- chat box -->
+                    <div class="chat-box">
+                        <!-- client -->
+                        <div class="client">
+                            <img src="./images/icon.png" alt="logo" />
+                            <div class="client-info">
+                                <h2>THÔNG BÁO</h2>
+                            </div>
+                        </div>
+                        <!-- main chat section -->
+                        <div class="chats">
+                            <div class="client-chat"> <strong>nddmanh</strong> vừa đặt cược <strong>100$</strong>  vào <strong>Cua</strong> </div>
+                            <!-- <div class="my-chat"> <strong>Bạn</strong> vừa đặt cược <strong>200$</strong>  vào <strong>Bầu</strong> </div>
+                            <div class="client-chat"> <strong>vhanh</strong> vừa đặt cược <strong>400$</strong>  vào <strong>Nai</strong> </div>
+                            <div class="my-chat"> <strong>Bạn</strong> vừa đặt cược <strong>100$</strong>  vào <strong>Gà</strong> </div>
+                            <div class="my-chat"> <strong>Bạn</strong> vừa đặt cược <strong>700$</strong>  vào <strong>Nai</strong> </div>
+                            <div class="my-chat"> <strong>Bạn</strong> vừa đặt cược <strong>400$</strong>  vào <strong>Tôm</strong> </div> -->
+                        </div>
+                    </div>
+
+                    <!-- result  -->
+                    <div class="previous-results">
+                        <div class="head-result">
+                            <h3>KẾT QUẢ</h3>
+                        </div>
+
+                        <div class="result">
+                            <div class="result-box">
+                                <img class="img-result" src="./images/ca.png" alt="">
+                                <img class="img-result" src="./images/ca.png" alt="">
+                                <img class="img-result" src="./images/tom.png" alt="">
+                            </div>
+
+                            <div class="countdown" style="display: none;" >
+                                <p id="time-countdown">60</p>
+                            </div>
+                        </div>
+                        
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        
+
+    </main>
+
+    <!-- footer  -->
+    <footer>
+
+    </footer>
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="./js/main.js"></script>
+</body>
+</html>
