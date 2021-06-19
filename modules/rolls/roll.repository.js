@@ -1,9 +1,8 @@
 const mongoose = require('mongoose');
 
 const RollSchema = mongoose.Schema({
-    label: String,
-    value: String,
-    counter: String
+    rolls: String,
+    status: String
 });
 
 const Roll = mongoose.model('Roll', RollSchema);

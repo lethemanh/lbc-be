@@ -2,8 +2,10 @@ const mongoose = require('mongoose');
 
 const RollSchema = mongoose.Schema({
     amount: String,
-    animalValue: String,
-    counter: String
+    choice: Number,
+    counter: Number,
+    users: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    rolls: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Roll' }]
 });
 
 const Roll = mongoose.model('Roll', RollSchema);
