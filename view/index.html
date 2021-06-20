@@ -97,6 +97,9 @@
                             <div class="my-chat"> <strong>Bạn</strong> vừa đặt cược <strong>700$</strong>  vào <strong>Nai</strong> </div>
                             <div class="my-chat"> <strong>Bạn</strong> vừa đặt cược <strong>400$</strong>  vào <strong>Tôm</strong> </div> -->
                         </div>
+                        <form action="/" method="POST" id="chatForm">
+                            <input id="txt" autocomplete="off" autofocus="on" oninput="isTyping()" placeholder="type your message here..." /><button>Send</button>
+                        </form>
                     </div>
 
                     <!-- result  -->
@@ -136,5 +139,7 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="./js/main.js"></script>
+    <script src="../../socket.io/socket.io.js"></script>
+    <script src="./js/socket-chat.js"></script>
 </body>
 </html>
