@@ -9,7 +9,11 @@ const find = function(query, limit, offset) {
 
 const create = function(inputs) {
     // Business logic
+    // let random1 = Math.floor(Math.random() * 6) + 1; 
+    // let random2 = Math.floor(Math.random() * 6) + 1; 
+    // let random3 = Math.floor(Math.random() * 6) + 1; 
 
+    
     // Data validation
 
     // Persist data
