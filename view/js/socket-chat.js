@@ -1,10 +1,10 @@
 var socket = io.connect('http://localhost:3000');
 
 // submit text message without reload/refresh the page
-$('form').submit(function (e) {
-    e.preventDefault(); // prevents page reloading
-    socket.emit('chat_message', $('#txt').val());
-    $('#txt').val('');
+$('.chat-input').submit(function (e) {
+    e.preventDefault();
+    socket.emit('chat_message', $('.chat-input input[type="text"]').val());
+    $('.chat-input input[type="text"]').val('');
     return false;
 });
 
