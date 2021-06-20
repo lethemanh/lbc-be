@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const BetSchema = mongoose.Schema({
     amount: Number,
     choice: Number,
-    counter: Number,
     users: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     rolls: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Roll' }]
 });
