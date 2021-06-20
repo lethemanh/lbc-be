@@ -15,7 +15,7 @@ app.use('/api/bets', betRouter.router);
 app.use('/api/rolls', rollRouter.router);
 
 // Static file router
-app.use('/', express.static(__dirname + '/views'));
+app.use('/', express.static(__dirname + '/view'));
 
 app.listen(configs.PORT, function() {
     console.log(`Server listening on port ${configs.PORT}`);
