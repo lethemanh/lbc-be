@@ -1,4 +1,4 @@
-const repository = require('./user.repository');
+const repository = require('./bet.repository');
 
 const find = function(query, limit, offset) {
     // Business logic

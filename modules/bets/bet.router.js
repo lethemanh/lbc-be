@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const service = require('./roll.service');
+const service = require('./bet.service');
 
 router.get('/', async function(req, res) {
     try {
