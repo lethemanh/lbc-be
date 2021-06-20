@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const RollSchema = mongoose.Schema({
-    rolls: String,
+    rollResult: String,
     status: String
 });
 

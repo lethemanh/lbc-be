@@ -11,8 +11,8 @@ mongoose.connect(configs.MONGO_CONNECTION_URL, { useNewUrlParser: true, useUnifi
 app.use(express.json());
 // API routers
 app.use('/api/users', userRouter.router);
-app.use('/api/bets', userRouter.router);
-app.use('/api/rolls', userRouter.router);
+app.use('/api/bets', betRouter.router);
+app.use('/api/rolls', rollRouter.router);
 
 // Static file router
 app.use('/', express.static(__dirname + '/views'));
