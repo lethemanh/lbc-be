@@ -17,7 +17,6 @@ app.use('/api/rolls', rollRouter.router);
 
 // Static file router
 app.use('/', express.static(__dirname + '/view'));
-
 // app.listen(configs.PORT, function() {
 //     console.log(`Server listening on port ${configs.PORT}`);
 // });
@@ -41,7 +40,6 @@ io.sockets.on('connection', function(socket) {
     });
 
 });
-
 
 const server = http.listen(configs.PORT, function() {
     console.log(`listening on *:${configs.PORT}`);
