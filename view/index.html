@@ -104,16 +104,15 @@
                                 <div class="my-chat"> <strong>Bạn</strong> vừa đặt cược <strong>700$</strong>  vào <strong>Nai</strong> </div>
                                 <div class="my-chat"> <strong>Bạn</strong> vừa đặt cược <strong>400$</strong>  vào <strong>Tôm</strong> </div>
                             </div>
-                           
                         </div>
 
                         <!-- input field section -->
-                        <div class="chat-input">
+                        <form class="chat-input">
                             <input type="text" placeholder="Enter Message" />
-                            <button class="send-btn">
+                            <button type="submit" class="send-btn">
                                 <img src="./images/noti/send.png" alt="send-btn">
                             </button>
-                        </div>
+                        </form>
 
                     </div>
 
@@ -154,5 +153,7 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="./js/main.js"></script>
+    <script src="../../socket.io/socket.io.js"></script>
+    <script src="./js/socket-chat.js"></script>
 </body>
 </html>
