@@ -1,18 +1,14 @@
 const mongoose = require('mongoose');
 
 const RollSchema = mongoose.Schema({
-    rollResult: String,
+    rollResult: Array,
     status: String
 });
 
 const Roll = mongoose.model('Roll', RollSchema);
 
 const find = async function(query, limit, offset) {
-    const rolls = await Roll
-        .find(query)
-        .limit(limit)
-        .skip(offset)
-        .exec();
+    const rolls = await Roll.find(query).exec();
 
     const total = await Roll.countDocuments(query);
 
@@ -22,6 +18,10 @@ const find = async function(query, limit, offset) {
 
 const findById = function(id) {
     return Roll.findById(id).exec();
+}
+
+const findIdRoll = function() {
+    return Roll.findOne({ status: "proccessing"}).exec();
 }
 
 const create = function(inputs, cb) {
@@ -40,6 +40,7 @@ const remove = function(id) {
 
 module.exports = {
     find: find,
+    findIdRoll: findIdRoll,
     findById: findById,
     create: create,
     update: update,

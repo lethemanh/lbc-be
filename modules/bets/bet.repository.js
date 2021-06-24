@@ -3,18 +3,14 @@ const mongoose = require('mongoose');
 const BetSchema = mongoose.Schema({
     amount: Number,
     choice: Number,
-    users: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-    rolls: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Roll' }]
+    users: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    rolls: { type: mongoose.Schema.Types.ObjectId, ref: 'Roll' }
 });
 
 const Bet = mongoose.model('Bet', BetSchema);
 
-const find = async function(query, limit, offset) {
-    const bets = await Bet
-        .find(query)
-        .limit(limit)
-        .skip(offset)
-        .exec();
+const find = async function(query) {
+    const bets = await Bet.find(query).exec();
 
     const total = await Bet.countDocuments(query);
 
@@ -23,7 +19,7 @@ const find = async function(query, limit, offset) {
 
 
 const findById = function(id) {
-    return Bet.findById(id).exec();
+    return Bet.findById(id).populate('rolls').populate('users').exec();
 }
 
 const create = function(inputs, cb) {
@@ -40,10 +36,11 @@ const remove = function(id) {
     return Bet.deleteOne({ _id: id })
 }
 
+
 module.exports = {
     find: find,
     findById: findById,
     create: create,
     update: update,
-    remove: remove
+    remove: remove,
 };
