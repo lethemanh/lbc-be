@@ -42,10 +42,16 @@ const remove = function(id) {
     return User.deleteOne({ _id: id })
 }
 
+//demo fake user - ko su dung
+const findUser = function () {
+    return User.findOne({ username: "nddmanh" }).exec();
+}
+
 module.exports = {
     find: find,
     findById: findById,
     create: create,
     update: update,
-    remove: remove
+    remove: remove,
+    findUser: findUser,
 };

@@ -4,7 +4,7 @@ const service = require('./roll.service');
 
 router.get('/', async function(req, res) {
     try {
-        const data = await service.find(req.body, Number(req.query.limit), Number(req.query.offset));
+        const data = await service.find(req.body);
         res.status(200).json(data);
     } catch (error) {
         res.status(500).json(error);
