@@ -1,15 +1,28 @@
 const repository = require('./user.repository');
+const bcrypt = require('bcrypt');
 
-const find = function(query, limit, offset) {
+let saltRounds = 7
+
+const find = function(query) {
     // Business logic
 
     // Querying
-    return repository.find(query, limit, offset);
+    return repository.find(query);
 }
 
-const create = function(inputs) {
+const create = async function(inputs) {
     // Business logic
+    let username = await repository.findByUsername(inputs.username);
+    if (username) {
+        return false;
+    }
 
+    // Hashed password
+    let salt = bcrypt.genSaltSync(saltRounds);
+    inputs.password = bcrypt.hashSync(inputs.password, salt);
+
+    inputs.balance = 10000;
+    console.log(inputs);
     // Data validation
 
     // Persist data

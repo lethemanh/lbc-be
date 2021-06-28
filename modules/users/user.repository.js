@@ -14,8 +14,6 @@ const User = mongoose.model('User', UserSchema);
 const find = async function(query, limit, offset) {
     const users = await User
         .find(query)
-        .limit(limit)
-        .skip(offset)
         .exec();
 
     const total = await User.countDocuments(query);
@@ -42,6 +40,10 @@ const remove = function(id) {
     return User.deleteOne({ _id: id })
 }
 
+const findByUsername = function (username) {
+    return User.findOne({ username: username}).exec();
+}
+
 //demo fake user - ko su dung
 const findUser = function () {
     return User.findOne({ username: "nddmanh" }).exec();
@@ -54,4 +56,5 @@ module.exports = {
     update: update,
     remove: remove,
     findUser: findUser,
+    findByUsername : findByUsername ,
 };
