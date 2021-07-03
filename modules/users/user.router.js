@@ -4,10 +4,13 @@ const service = require('./user.service');
 
 router.get('/', async function(req, res) {
     try {
-        const data = await service.find(req.body, Number(req.query.limit), Number(req.query.offset));
+        const data = await service.find(req.body);
+        res.cookie('accessToken', JSON.stringify(data.accessToken));
         res.status(200).json(data);
     } catch (error) {
-        res.status(500).json(error);
+        res.status(500).json({
+            message: error.message
+        });
     }
 });
 

@@ -18,6 +18,9 @@
   "homepage": "https://github.com/Lenawesome/BauTomCuaCa#readme",
   "dependencies": {
     "express": "^4.17.1",
-    "mongoose": "^5.12.14"
+    "jsonwebtoken": "^8.5.1",
+    "mongodb": "^3.6.8",
+    "mongoose": "^5.12.14",
+    "validator": "^13.6.0"
   }
 }
