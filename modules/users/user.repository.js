@@ -11,16 +11,21 @@ const UserSchema = mongoose.Schema({
 
 const User = mongoose.model('User', UserSchema);
 
-const find = async function(query, limit, offset) {
-    const users = await User
-        .find(query)
-        .exec();
-
-    const total = await User.countDocuments(query);
-
-    return { users, total };
+const find = async function(body) {
+    const checkUserName = await User
+    .find({username: body.username})
+    .exec();
+    if (checkUserName.length === 0) {
+        throw new Error('Invalid user');
+    }
+    const user = await User
+    .find({username: body.username, password: body.password})
+    .exec();
+    if (user.length === 0) {
+        throw new Error('Invalid password');
+    } 
+    return user;
 }
-
 
 const findById = function(id) {
     return User.findById(id).exec();
