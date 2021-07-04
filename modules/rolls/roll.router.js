@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const service = require('./roll.service');
+const AuthMiddleWare = require('../../middleware/AuthMiddleware');
 
+router.use(AuthMiddleWare.isAuth);
 router.get('/', async function(req, res) {
     try {
         const data = await service.find(req.body);
