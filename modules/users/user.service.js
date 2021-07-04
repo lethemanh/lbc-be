@@ -1,6 +1,5 @@
 const repository = require('./user.repository');
 const bcrypt = require('bcrypt');
-let saltRounds = 7
 const jwt = require('jsonwebtoken');
 const configs = require('../../config/index')
 
@@ -58,7 +57,7 @@ const create = async function (inputs) {
     }
 
     // Hashed password
-    let salt = bcrypt.genSaltSync(saltRounds);
+    let salt = bcrypt.genSaltSync(configs.SALT_ROUNDS);
     inputs.password = bcrypt.hashSync(inputs.password, salt);
 
     inputs.balance = 10000;

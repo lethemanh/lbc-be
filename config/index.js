@@ -3,4 +3,5 @@ module.exports = {
     PORT: 3000,
     ACCESS_TOKEN_SECRET: 'access-token-secret-example-bau-cua-tom-ca',
     ACCESS_TOKEN_LIFE: '1h',
+    SALT_ROUNDS: 7
 };

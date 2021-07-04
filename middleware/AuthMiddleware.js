@@ -5,7 +5,7 @@ const accessTokenSecret = config.ACCESS_TOKEN_SECRET || "access-token-secret-exa
 
 let isAuth = async (req, res, next) => {
 
-  const tokenFromClient = req.body.token || req.query.token || req.headers["x-access-token"];
+  const tokenFromClient = req.body.accessToken || req.query.accessToken || req.cookie.accessToken || req.headers["x-access-token"];
   if (tokenFromClient) {
 
     try {
