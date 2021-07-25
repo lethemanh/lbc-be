@@ -1,55 +1,51 @@
 const express = require('express');
 const router = express.Router();
-const service = require('./user.service');
-const validate = require('./user.validation');
-const {validationResult} = require('express-validator');
+const userService = require('./user.service');
 
 router.get('/', async function(req, res) {
-    try {
-        const data = await service.find(req.body);
-        res.cookie('accessToken', JSON.stringify(data.accessToken));
-        res.status(200).json(data);
-    } catch (error) {
-        res.status(500).json({
-            message: error.message
-        });
-    }
+	try {
+		const data = await userService.find(req.query, Number(req.query.limit), Number(req.query.offset), req.user);
+		res.status(200).json({data: data});
+	} catch (error) {
+		res.status(500).json({
+			message: error.message
+		});
+	}
 });
 
-router.post('/register', validate.register() , async function(req, res) {
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-        res.status(422).json({ errors: errors.array() });
-        return;
-    }
-
-    try {
-        const result = await service.create(req.body);
-        res.status(200).json(result);
-    } catch (error) {
-        res.status(500).json(error);
-    }
+router.post('/', async function(req, res) {
+	try {
+		const result = await userService.create(req.body, req.user);
+		res.status(200).json({data: result});
+	} catch (error) {
+		res.status(500).json({
+			message: error.message
+		});
+	}
 });
 
 router.put('/:id', async function(req, res) {
-    try {
-        const result = await service.update(req.params.id, req.body);
-        res.json(result);
-    } catch (error) {
-        res.status(500).json(error);
-    }
+	try {
+		const result = await userService.update(req.params.id, req.body, req.user);
+		res.status(200).json({data: result});
+	} catch (error) {
+		res.status(500).json({
+			message: error.message
+		});
+	}
 });
 
 router.delete('/:id', async function(req, res) {
-    try {
-        await service.remove(req.params.id);
-        res.send('OK');
-    } catch (error) {
-        res.status(500).json(error);
-    }
+	try {
+		await userService.remove(req.params.id, req.user);
+		res.status(200).send({message: 'OK'});
+	} catch (error) {
+		res.status(500).json({
+			message: error.message
+		});
+	}
 })
 
 module.exports = {
-    router: router
+	router: router
 };
