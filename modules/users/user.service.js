@@ -1,87 +1,71 @@
 const repository = require('./user.repository');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const configs = require('../../config/index')
+const authHelper = require('../auth/auth.helper');
+const PERMISSIONS = require('../../constants/permissions');
 
-const find = async function (body) {
-    // Business logic
-
-    //Transform query - Data validation
-    if (!body.username) {
-        throw new Error('Lack of username');
-    } else if (!body.password) {
-        throw new Error('Lack of password');
+const find = function (query, user) {
+  if (!authHelper.authorization(user.permissions, PERMISSIONS.USER.READ)) {
+    throw new Error('Permission Required');
+  }
+  const supportedQueryFields = ['username', 'email','phoneNumber','fullName','avatar','balance','age','role'];
+  Object.keys(query).forEach(function (key) {
+    if (!supportedQueryFields.includes(key)) {
+      throw new Error(`Unrecognized field: ${key}`);
     }
-    const supportedQueryFields = ['username', 'password'];
-
-    Object.keys(body).forEach(function (key) {
-        if (!supportedQueryFields.includes(key)) {
-            throw new Error(`Unrecognized field: ${key}`)
-        }
-    })
-
-    const userData = await repository.find(body);
-    const accessTokenLife = configs.ACCESS_TOKEN_LIFE;
-    const accessTokenSecret = configs.ACCESS_TOKEN_SECRET;
-
-    let generateToken = (user, secretSignature, tokenLife) => {
-        return new Promise((resolve, reject) => {
-            jwt.sign(
-                { data: user },
-                secretSignature,
-                {
-                    algorithm: "HS256",
-                    expiresIn: tokenLife
-                },
-                (error, token) => {
-                    if (error) {
-                        return reject(error);
-                    }
-                    resolve(token);
-                });
-        });
-    }
-
-    const accessToken = await generateToken(userData, accessTokenSecret, accessTokenLife);
-
-    return {
-        accessToken: accessToken,
-    }
+  });
+  return repository.find(query);
 }
 
-const create = async function (inputs) {
-    // Business logic
-    let username = await repository.findByUsername(inputs.username);
-    if (username) {
-        return false;
-    }
+const create = async function (inputs, user) {
+  if (user && !authHelper.authorization(user.permissions, PERMISSIONS.USER.CREATE)) { 
+    throw new Error('Permission Required'); 
+  }
+  let newUser = await repository.create(inputs);
+  newUser.password = undefined;
 
-    // Hashed password
-    let salt = bcrypt.genSaltSync(configs.SALT_ROUNDS);
-    inputs.password = bcrypt.hashSync(inputs.password, salt);
-
-    inputs.balance = 10000;
-    console.log(inputs);
-    // Data validation
-
-    // Persist data
-    return repository.create(inputs);
+  return newUser;
 }
 
-const update = function (id, newObject) {
-    // Business logic
-
-    // Persist data
-    return repository.update(id, newObject);
+const update = function (id, newObject, user) {
+  if (!authHelper.authorization(user.permissions, PERMISSIONS.USER.UPDATE)) {
+    throw new Error('Permission Required');
+  }
+  return repository.update(id, newObject);
 }
 
-const remove = function (id) {
-    return repository.remove(id);
+const remove = function (id, user) {
+  if (!authHelper.authorization(user.permissions, PERMISSIONS.USER.DELETE)) {
+    throw new Error('Permission Required');
+  }
+  return repository.remove(id);
+}
+
+const findByUsername = function (username, user) {
+  if (user && !authHelper.authorization(user.permissions, PERMISSIONS.USER.READ)) { 
+    throw new Error('Permission Required'); 
+  }
+  return repository.findByUsername(username);
+}
+
+const findByEmail = function (email, user) {
+  if (user && !authHelper.authorization(user.permissions, PERMISSIONS.USER.READ)) { 
+    throw new Error('Permission Required'); 
+  }
+  return repository.findByEmail(email);
+}
+
+const findByPhonenumber = function (phoneNumber, user) {
+  if (user && !authHelper.authorization(user.permissions, PERMISSIONS.USER.READ)) { 
+    throw new Error('Permission Required'); 
+  }
+  return repository.findByPhonenumber(phoneNumber);
 }
 
 module.exports = {
-    find: find,
-    create: create,
-    update: update,
-    remove: remove
+  find: find,
+  create: create,
+  update: update,
+  remove: remove,
+  findByUsername: findByUsername,
+  findByEmail: findByEmail,
+  findByPhonenumber: findByPhonenumber
 };

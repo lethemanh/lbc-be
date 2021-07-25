@@ -1,0 +1,35 @@
+const ROLL = {
+  READ: 'ROLL.READ',
+  CREATE: 'ROLL.CREATE',
+  UPDATE: 'ROLL.UPDATE',
+  DELETE: 'ROLL.DELETE'
+};
+
+const BET = {
+  READ: 'BET.READ',
+  CREATE: 'BET.CREATE',
+  UPDATE: 'BET.UPDATE',
+  DELETE: 'BET.DELETE'
+};
+
+const USER = {
+  READ: 'USER.READ',
+  READ_SELF: 'USER.READ_SELF',
+  CREATE: 'USER.CREATE',
+  UPDATE: 'USER.UPDATE',
+  DELETE: 'USER.DELETE'
+};
+
+const ROLE = {
+  READ: 'ROLE.READ',
+  CREATE: 'ROLE.CREATE',
+  UPDATE: 'ROLE.UPDATE',
+  DELETE: 'ROLE.DELETE' 
+}
+
+module.exports = {
+  ROLL,
+  BET,
+  USER,
+  ROLE
+};

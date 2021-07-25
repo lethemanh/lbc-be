@@ -1,45 +1,51 @@
 const express = require('express');
 const router = express.Router();
-const service = require('./roll.service');
-const AuthMiddleWare = require('../../middleware/AuthMiddleware');
+const rollService = require('./roll.service');
 
-router.use(AuthMiddleWare.isAuth);
 router.get('/', async function(req, res) {
-    try {
-        const data = await service.find(req.body);
-        res.status(200).json(data);
-    } catch (error) {
-        res.status(500).json(error);
-    }
+  try {
+    const data = await rollService.find(req.body, req.user);
+    res.status(200).json({data: data});
+  } catch (error) {
+    res.status(500).json({
+      message: error.message
+    });
+  }
 });
 
 router.post('/', async function(req, res) {
-    try {
-        const result = await service.create(req.body);
-        res.status(200).json(result);
-    } catch (error) {
-        res.status(500).json(error);
-    }
+  try {
+    const result = await rollService.create(req.body, req.user);
+    res.status(200).json({data: result});
+  } catch (error) {
+    res.status(500).json({
+      message: error.message
+    });
+  }
 });
 
 router.put('/:id', async function(req, res) {
-    try {
-        const result = await service.update(req.params.id, req.body);
-        res.json(result);
-    } catch (error) {
-        res.status(500).json(error);
-    }
+  try {
+    const result = await rollService.update(req.params.id, req.body, req.user);
+    res.status(200).json({data: result});
+  } catch (error) {
+    res.status(500).json({
+      message: error.message
+    });
+  }
 });
 
 router.delete('/:id', async function(req, res) {
-    try {
-        await service.remove(req.params.id);
-        res.send('OK');
-    } catch (error) {
-        res.status(500).json(error);
-    }
+  try {
+    await rollService.remove(req.params.id, req.user);
+    res.status(200).send({message: 'OK'});
+  } catch (error) {
+    res.status(500).json({
+      message: error.message
+    });
+  }
 })
 
 module.exports = {
-    router: router
+  router: router
 };
