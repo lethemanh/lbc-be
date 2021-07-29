@@ -7,12 +7,15 @@ const UserSchema = mongoose.Schema({
   email: String,
   phoneNumber: String,
   fullName: String,
-  avatar: String,
+  avatar: {
+    type: String,
+    default: 'avatar'
+  },
   balance: Number,
   age: Number,
   role: {
     type: String,
-    default: ROLE.USER
+    default: ROLE.ROLE.USER
   }
 }, {
     timestamps: true

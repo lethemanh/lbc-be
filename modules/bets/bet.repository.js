@@ -10,7 +10,7 @@ const BetSchema = mongoose.Schema({
 const Bet = mongoose.model('Bet', BetSchema);
 
 const find = async function(query) {
-  const bets = await Bet.find(query).exec();
+  const bets = await Bet.find(query).populate('users').populate('rolls').exec();
   const total = await Bet.countDocuments(query);
   return { bets, total };
 }

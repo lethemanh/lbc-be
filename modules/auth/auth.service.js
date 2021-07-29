@@ -32,7 +32,9 @@ const login = async (body) => {
     email: existedUser.email,
     phoneNumber: existedUser.phoneNumber,
     age: existedUser.age,
-    role: existedUser.role
+    role: existedUser.role,
+    balance: existedUser.balance,
+    avatar: existedUser.avatar
   };
 
   const token = await jwt.sign(tokenData, config.SECRET_KEY, {
@@ -89,8 +91,7 @@ const register = async (body) => {
     email: body.email,
     phoneNumber: body.phoneNumber,
     fullName: body.fullName,
-    avatar: body.avatar,
-    balance: body.balance,
+    balance: 10000,
     age: body.age
   });
 }

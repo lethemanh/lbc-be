@@ -13,6 +13,15 @@ const create = function(inputs, user) {
   if (!authHelper.authorization(user.permissions, PERMISSIONS.ROLL.CREATE)) {
     throw new Error('Permission Required');
   }
+  let random1 = Math.floor(Math.random() * 6) + 1; 
+  let random2 = Math.floor(Math.random() * 6) + 1; 
+  let random3 = Math.floor(Math.random() * 6) + 1; 
+  let result = [random1, random2, random3];
+  // Add result and status to roll
+  inputs = {
+    rollResult: result,
+    status: "proccessing"
+  }
   return repository.create(inputs);
 }
 

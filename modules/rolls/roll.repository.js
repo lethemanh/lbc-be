@@ -21,10 +21,6 @@ const findById = function(id) {
   return Roll.findById(id).exec();
 }
 
-const findIdRoll = function() {
-  return Roll.findOne({ status: "proccessing"}).exec();
-}
-
 const create = function(inputs, cb) {
   const newRoll = new Roll(inputs);
   return newRoll.save();
@@ -38,11 +34,15 @@ const remove = function(id) {
   return Roll.deleteOne({ _id: id })
 }
 
+const findRollProcessing = function() {
+  return Roll.findOne({ status: "proccessing"}).exec();
+}
+
 module.exports = {
   find: find,
-  findIdRoll: findIdRoll,
   findById: findById,
   create: create,
   update: update,
-  remove: remove
+  remove: remove,
+  findRollProcessing: findRollProcessing
 };
