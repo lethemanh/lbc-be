@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('../../config');
 const COMMON = require('../../constants/common');
-const ROLE = require('../../constants/role');
+const { ROLE } = require('../../constants/role');
 const userService = require('../users/user.service');
 
 const login = async (body) => {
@@ -76,7 +76,7 @@ const register = async (body) => {
     throw new Error('You must be 18+ to play this game!')
   } 
 
-  if (body.role && body.role !== ROLE.ROLE.USER) {
+  if (body.role && body.role !== ROLE.USER) {
     throw new Error('Permission Required!')
   }
 

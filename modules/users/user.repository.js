@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const ROLE = require('../../constants/role');
+const { ROLE } = require('../../constants/role');
 
 const UserSchema = mongoose.Schema({
   username: String,
