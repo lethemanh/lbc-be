@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { ROLE } = require('../../constants/role');
+const { DEFAULT_USER_BALANCE } = require('../../constants/common');
 
 const UserSchema = mongoose.Schema({
   username: String,
@@ -8,7 +9,10 @@ const UserSchema = mongoose.Schema({
   phoneNumber: String,
   fullName: String,
   avatar: String,
-  balance: Number,
+  balance:  {
+    type: Number,
+    default: DEFAULT_USER_BALANCE
+  },
   age: Number,
   role: {
     type: String,
