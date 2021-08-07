@@ -60,6 +60,13 @@ const findByPhonenumber = function (phoneNumber, user) {
   return repository.findByPhonenumber(phoneNumber);
 }
 
+const getProfile = function(user) {
+  if (user && !authHelper.authorization(user.permissions, PERMISSIONS.USER.READ_SELF)) { 
+    throw new Error('Permission Required'); 
+  }
+  return repository.findById(user._id);  
+}
+
 module.exports = {
   find: find,
   create: create,
@@ -67,5 +74,6 @@ module.exports = {
   remove: remove,
   findByUsername: findByUsername,
   findByEmail: findByEmail,
-  findByPhonenumber: findByPhonenumber
+  findByPhonenumber: findByPhonenumber,
+  getProfile: getProfile
 };
