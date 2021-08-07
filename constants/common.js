@@ -1,5 +1,7 @@
 const ALLOWED_AGE = 18;
+const DEFAULT_USER_BALANCE = 10000;
 
 module.exports = {
-    ALLOWED_AGE 
+    ALLOWED_AGE,
+    DEFAULT_USER_BALANCE
 }
