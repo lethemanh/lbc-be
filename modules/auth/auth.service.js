@@ -28,10 +28,6 @@ const login = async (body) => {
   const tokenData = {
     _id: existedUser._id,
     username: existedUser.username,
-    fullName: existedUser.fullName,
-    email: existedUser.email,
-    phoneNumber: existedUser.phoneNumber,
-    age: existedUser.age,
     role: existedUser.role
   };
 
