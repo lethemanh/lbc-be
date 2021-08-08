@@ -1,8 +1,11 @@
 const mongoose = require('mongoose');
+const { STATUS } = require('../../constants/status');
 
 const RollSchema = mongoose.Schema({
   rollResult: Array,
-  status: String
+  status: { type: String, default: STATUS.PROCESSING }
+}, {
+  timestamps: true
 });
 
 const Roll = mongoose.model('Roll', RollSchema);
@@ -21,12 +24,8 @@ const findById = function(id) {
   return Roll.findById(id).exec();
 }
 
-const findIdRoll = function() {
-  return Roll.findOne({ status: "proccessing"}).exec();
-}
-
-const create = function(inputs, cb) {
-  const newRoll = new Roll(inputs);
+const create = function(rollResult, cb) {
+  const newRoll = new Roll({ 'rollResult': rollResult });
   return newRoll.save();
 }
 
@@ -38,11 +37,15 @@ const remove = function(id) {
   return Roll.deleteOne({ _id: id })
 }
 
+const findRollProcessing = function() {
+  return Roll.findOne({ status: STATUS.PROCESSING }).exec();
+}
+
 module.exports = {
   find: find,
-  findIdRoll: findIdRoll,
   findById: findById,
   create: create,
   update: update,
-  remove: remove
+  remove: remove,
+  findRollProcessing: findRollProcessing
 };

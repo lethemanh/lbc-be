@@ -1,5 +1,6 @@
+const rollResult = require('../helper/rollResult');
+const calculateResult = require('../helper/calculateResult');
 const { TIME_LEFT_DEFAULT, PENDING_COUNTDOWN_TIME, COUNTDOWN_INTERVAL_SECOND } = require('../config');
-const serverRoll = require('../helper/serverRoll');
 
 const activateSocket = (io) => {
   let timeLeft = TIME_LEFT_DEFAULT;
@@ -11,7 +12,8 @@ const activateSocket = (io) => {
       clearInterval(timeInterval);
       io.emit('processing-result');
       // Server roll result
-      serverRoll();
+      rollResult();
+      
       setTimeout(() => {
         timeLeft = TIME_LEFT_DEFAULT;
         countdown();
