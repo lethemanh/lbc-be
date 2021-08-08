@@ -1,10 +1,13 @@
 const mongoose = require('mongoose');
+const { STATUS } = require('../../constants/status');
 
 const BetSchema = mongoose.Schema({
   amount: Number,
   choice: Number,
   users: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  rolls: { type: mongoose.Schema.Types.ObjectId, ref: 'Roll' }
+  status: { type: String, default: STATUS.PROCESSING }
+}, {
+  timestamps: true
 });
 
 const Bet = mongoose.model('Bet', BetSchema);
@@ -33,10 +36,15 @@ const remove = function(id) {
   return Bet.deleteOne({ _id: id })
 }
 
+const findBetProcessing = function() {
+  return Bet.findOne({ status: STATUS.PROCESSING }).exec();
+}
+
 module.exports = {
   find: find,
   findById: findById,
   create: create,
   update: update,
   remove: remove,
+  findBetProcessing: findBetProcessing 
 };
