@@ -1,12 +1,26 @@
 const userRepository = require('../modules/users/user.repository');
-const rollRepository = require('../modules/rolls/roll.repository');
 const betRepository = require('../modules/bets/bet.repository');
 const { calculateMoneyAfterRoll } = require('./formulaForCalculatingMoney');
 const { STATUS } = require('../constants/status');
 
-const calculateResult = async (user) => {
-  const roll = await rollRepository.findRollProcessing();
-  const bet = await betRepository.findBetProcessing();
+const calculateEachUser = async (userId, roll) => {
+  const user = await userRepository.findById(userId);
+  const bet = await betRepository.findBetProcessing(userId);
+  let returnResult;
+
+  if (!roll) {
+    returnResult = {
+      newBalance: user.balance
+    };
+    return returnResult;
+  }
+  if (!bet) {
+    returnResult = {
+      newBalance: user.balance,
+      rollResult: roll.rollResult
+    };
+    return returnResult;
+  }
   // Caculate duplicate coefficient
   let coefficient = 0;
   roll.rollResult.forEach( item => {
@@ -22,14 +36,18 @@ const calculateResult = async (user) => {
     await userRepository.update(user._id, user); // Update player's money
   } 
 
+  returnResult = {
+    newBalance: user.balance,
+    userChoice: bet.choice,
+    rollResult: roll.rollResult
+  };
+
   // Change status
   bet.status = STATUS.DONE;
-  roll.status = STATUS.DONE;
-
   // Update Data
-  await rollRepository.update(Roll._id, Roll); 
-  await betRepository.update(Bet._id, Bet); 
-  return user.balance;
-}
+  await betRepository.update(bet._id, bet); 
 
-module.exports = calculateResult;
+  return returnResult;
+};
+
+module.exports = calculateEachUser;

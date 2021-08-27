@@ -41,11 +41,16 @@ const findRollProcessing = function() {
   return Roll.findOne({ status: STATUS.PROCESSING }).exec();
 }
 
+const deleteRollProcessing = function() {
+  return Roll.findOneAndDelete({ status: STATUS.PROCESSING }).exec();
+}
+
 module.exports = {
   find: find,
   findById: findById,
   create: create,
   update: update,
   remove: remove,
-  findRollProcessing: findRollProcessing
+  findRollProcessing: findRollProcessing,
+  deleteRollProcessing: deleteRollProcessing
 };
