@@ -36,8 +36,12 @@ const remove = function(id) {
   return Bet.deleteOne({ _id: id })
 }
 
-const findBetProcessing = function() {
-  return Bet.findOne({ status: STATUS.PROCESSING }).exec();
+const findBetProcessing = function(userId) {
+  return Bet.findOne({ users: userId, status: STATUS.PROCESSING }).exec();
+}
+
+const countBetsProcessing = function() {
+  return Bet.countDocuments({ status: STATUS.PROCESSING }).exec();
 }
 
 module.exports = {
@@ -46,5 +50,6 @@ module.exports = {
   create: create,
   update: update,
   remove: remove,
-  findBetProcessing: findBetProcessing 
+  findBetProcessing: findBetProcessing,
+  countBetsProcessing: countBetsProcessing
 };
