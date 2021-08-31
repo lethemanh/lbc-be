@@ -1,7 +1,8 @@
 const rollResult = require('../helper/rollResult');
 const calculateMultipleResults = require('../helper/calculateMultipleResults');
-const { SECRET_KEY, TIME_LEFT_DEFAULT, PENDING_COUNTDOWN_TIME, COUNTDOWN_INTERVAL_SECOND } = require('../config');
-const jwt = require('jsonwebtoken');
+const { TIME_LEFT_DEFAULT, PENDING_COUNTDOWN_TIME, COUNTDOWN_INTERVAL_SECOND } = require('../config');
+const socketAuth = require('./socketAuth');
+const MSGTYPE = require('../constants/msgtype');
 const _ = require('lodash');
 
 const activateSocket = (io) => {
@@ -38,43 +39,32 @@ const activateSocket = (io) => {
     timeLeft--;
   }
 
-  io.use(async function (socket, next) {
-    try {
-      if (socket.handshake.query.token) {
-        const token = socket.handshake.query.token;
-        const data = await jwt.verify(token, SECRET_KEY);
-        
-        if (!data) {
-          return next(new Error("Not authenticated!"));
-        }
-        if (data.exp <= Date.now() / 1000) {
-          return next(new Error("Token expired!"));
-        }
-        socket.user = {
-          _id: data._id,
-          email: data.email,
-          phoneNumber: data.phoneNumber,
-          role: data.role
-        };
-        return next();
-      }
-      return next(new Error("Not authenticated!"));
-    } catch (err) {
-      return next(err);
-    }
-  }).on('connection', (socket) => {
+  io.use((socket, next) => socketAuth(socket, next)).on('connection', (socket) => {
+    io.emit('connect-success', {
+      _id : socket.user._id,
+      username: socket.user.username,
+      type: MSGTYPE.CONNECT
+    });
     connectedUsers.push(socket.user._id);
     userIds = _.uniqBy(connectedUsers);
-    
     userConnectedCounter++;
     if (!timeInterval) {
       timeInterval = setInterval(countdown, COUNTDOWN_INTERVAL_SECOND);
-    }
+    };
+    socket.on('message', (message) => {
+      io.emit('chat-message', message);
+    });
     socket.on('disconnect', () => {
+      io.emit('disconnect-success', 
+      {
+        _id : socket.user._id,
+        username: socket.user.username,
+        type: MSGTYPE.DISCONNECT
+      }
+      );
       indexDisconnectUser = connectedUsers.indexOf(socket.user._id);
       connectedUsers.splice(indexDisconnectUser, 1);
       userIds = _.uniqBy(connectedUsers);
-
       userConnectedCounter--;
       if (userConnectedCounter === 0) {
         clearInterval(timeInterval);
