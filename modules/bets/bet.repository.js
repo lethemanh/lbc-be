@@ -18,7 +18,6 @@ const find = async function(query) {
   return { bets, total };
 }
 
-
 const findById = function(id) {
   return Bet.findById(id).populate('rolls').populate('users').exec();
 }
