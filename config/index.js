@@ -1,6 +1,6 @@
 module.exports = {
-  MONGO_CONNECTION_URL: 'mongodb://localhost:27017/bautomcuaca',
-  PORT: 3000,
+  MONGO_CONNECTION_URL: process.env.MONGO_DB_URL,
+  PORT: process.env.PORT,
   SALT_ROUNDS:7,
   SECRET_KEY : 'baucuatomca',
   TOKEN_EXPIRY_TIME : '12h',

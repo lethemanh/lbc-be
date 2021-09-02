@@ -1,3 +1,4 @@
+require('custom-env').env(process.env.NODE_ENV || 'local');
 const express = require('express');
 const app = express();
 const cors = require('cors');
@@ -34,6 +35,6 @@ const io = require('socket.io')(server, {
 
 activateSocket(io);
 
-server.listen(configs.PORT, function() {
+server.listen(process.env.PORT || configs.PORT, function() {
     console.log(`Server listening on port ${configs.PORT}`);
 });
