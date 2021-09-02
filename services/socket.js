@@ -1,3 +1,4 @@
+const betService = require('../modules/bets/bet.service');
 const rollResult = require('../helper/rollResult');
 const calculateMultipleResults = require('../helper/calculateMultipleResults');
 const { TIME_LEFT_DEFAULT, PENDING_COUNTDOWN_TIME, COUNTDOWN_INTERVAL_SECOND } = require('../config');
@@ -71,6 +72,21 @@ const activateSocket = (io) => {
         timeLeft = TIME_LEFT_DEFAULT;
         timeInterval = undefined;
       }
+    });
+    socket.on('message', (message) => {
+      io.emit('chat-message', {
+        message: message,
+        username: socket.user.username 
+      });
+    })
+    socket.on('bet', async (data) => {
+      const betData = await betService.create(data, socket.user);
+      socket.broadcast.emit('broadcast-bet', {
+        userId: betData?.users?._id,
+        choice: betData.choice,
+        amount: betData.amount,
+        username: betData?.users?.username
+      });
     });
   });
 }

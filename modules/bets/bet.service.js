@@ -16,12 +16,24 @@ const create = async function(betDataOfUser, user) {
     throw new Error('Permission Required');
   }
   const player = await userRepository.findById(user._id);
+
+  // Validate pick & bet
+  if (isNaN(betDataOfUser.amount) || betDataOfUser.amount <= 0) {
+    throw new Error('Bet amount is not valid');
+  } else if (betDataOfUser.amount > player.balance) {
+    throw new Error('Your balance is not enough');
+  }
+
   // Minus the player's money after bet
   player.balance = calculateMoneyAfterBet(player, betDataOfUser);
   // Update data
-  betDataOfUser.users = { ...player };
-  await userRepository.update(player._id, player); 
-  return betRepository.create(betDataOfUser);
+  await userRepository.update(player._id, player);
+
+  const newBet = {
+    ...betDataOfUser,
+    users: player
+  }
+  return await betRepository.create(newBet);
 }
 
 const update = function(id, newObject, user) {

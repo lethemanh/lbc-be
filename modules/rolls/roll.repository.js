@@ -38,7 +38,7 @@ const remove = function(id) {
 }
 
 const findRollProcessing = function() {
-  return Roll.findOne({ status: STATUS.PROCESSING }).exec();
+  return Roll.findOne({ status: STATUS.PROCESSING }).sort({'createdAt': 1}).exec();
 }
 
 const deleteRollProcessing = function() {
