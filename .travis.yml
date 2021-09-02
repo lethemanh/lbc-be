@@ -1,0 +1,18 @@
+language: node_js
+
+node_js:
+- '14'
+
+cache:
+  directories:
+    - node_modules
+
+script:
+  - npm install
+  - npm run start
+
+deploy:
+  provider: heroku
+  app: lbcapi
+  api_key:
+    secure: 0lQEp/RbAPge6eHRYJU6gvX4/1iQhGQAq2YbZdIlPy4Ly8IriqF/Vf/zN08bS5A1iNjR+KXxGoXH+kcreJTiTdowNnA9k5i+0i6mc1eSE6eNYf40lnNgitAa+mxx9IpQeqCZPBtfp7BqjeSlNS0Vw8smYGSApptlJnx+bycCb9/uGbiBVRMBjKuE0lbNfTyvqwfM+YiPJpDcJuRTqzeGVYyC6LwJDlGTAHC4yK1b1WYvWdhLER682MrwTLL+yBlawkXs+APUBL3eHczegMrE4SBYTXptUZEiLBguQC6MhP2x2zTTZ50Ffgm3x+Pc3xs5TIYMxY/tPeNxe/z2OQ2Glgp3cIvPj3q7Y7HuvO2l8Q1HZmLgeinHqIE9cARX+6Mln3hDvw2RrLfHk6WOyezuJ4cFH6UyKHfcyLjZcMZKVCLLtXkMZSwW1YsvbUqXVTA9zqgje0C26B00cvoXN3NServkV+Ubymzz1SlgQi2p7nyCFRIiDx4/24cRonv0IDaYn6418z5UycWN0uBUrZynCeg6HSvADb/J9hbxhSSyXnbnePBPNANPVs78iZ8XY3BfT8Cmz9yuGNL3ingb/VMtcl9sbDTtfGnaJAvHnkWbxMM0g4BU9EObAlVNCTmPAvjdKm4ooDxNcb0peRpe9QjtrLq8K8a+lpLtJMCdxLUzlbs=
