@@ -12,7 +12,11 @@ const authenticateMw = require('./middlewares/authenticate');
 const roleRouter = require('./modules/roles/role.router');
 const activateSocket = require('./services/socket');
 
-mongoose.connect(configs.MONGO_CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(configs.MONGO_CONNECTION_URL, {
+  useNewUrlParser: true, useUnifiedTopology: true
+}).then(() => {
+  console.log('Connect to mongodb success')
+});
 
 app.use(cors({
     origin: '*'
@@ -36,5 +40,5 @@ const io = require('socket.io')(server, {
 activateSocket(io);
 
 server.listen(process.env.PORT || configs.PORT, function() {
-    console.log(`Server listening on port ${configs.PORT}`);
+  console.log(`Server listening on port ${configs.PORT}`);
 });
