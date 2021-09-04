@@ -13,12 +13,12 @@ const activateSocket = (io) => {
   let userIds = [];
   let connectedUsers = [];
 
-  const countdown = async () => {
+  const countdown = async (user) => {
     if (timeLeft <= 0) {
       clearInterval(timeInterval);
       io.emit('processing-result');
       // Server roll result
-      await rollResult();
+      await rollResult(user);
 
       // Return result to each player
       const returnResult = await calculateMultipleResults(userIds);
@@ -26,8 +26,8 @@ const activateSocket = (io) => {
 
       setTimeout(() => {
         timeLeft = TIME_LEFT_DEFAULT;
-        countdown();
-        timeInterval = setInterval(countdown, COUNTDOWN_INTERVAL_SECOND);
+        countdown(user);
+        timeInterval = setInterval(() => countdown(user), COUNTDOWN_INTERVAL_SECOND);
         io.emit('finish-result');
       }, PENDING_COUNTDOWN_TIME);
       
@@ -50,7 +50,7 @@ const activateSocket = (io) => {
     userIds = _.uniqBy(connectedUsers);
     userConnectedCounter++;
     if (!timeInterval) {
-      timeInterval = setInterval(countdown, COUNTDOWN_INTERVAL_SECOND);
+      timeInterval = setInterval(() => countdown(socket.user), COUNTDOWN_INTERVAL_SECOND);
     };
     socket.on('message', (message) => {
       io.emit('chat-message', message);
