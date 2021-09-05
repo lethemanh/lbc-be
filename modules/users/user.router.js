@@ -16,7 +16,7 @@ router.get('/profile', async function (req, res) {
       role: data ? data.role : null
     }});
   } catch (error) {
-    res.status(500).json({
+    res.status(error.status).json({
       message: error.message
     });
   }
