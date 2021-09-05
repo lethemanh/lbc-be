@@ -2,26 +2,39 @@ const betRepository = require('./bet.repository');
 const userRepository = require('../users/user.repository');
 const authHelper = require('../auth/auth.helper');
 const { calculateMoneyAfterBet } = require('../../helper/formulaForCalculatingMoney');
+const APIError = require('../../helper/APIError');
 const PERMISSIONS = require('../../constants/permissions');
 
 const find = function(query, user) {
   if (!authHelper.authorization(user.permissions, PERMISSIONS.BET.READ)) {
-    throw new Error('Permission Required');
+    throw new APIError({
+      message: 'Permission Required',
+      status: 401
+    });
   }
   return betRepository.find(query);
 }
 
 const create = async function(betDataOfUser, user) {
   if (!authHelper.authorization(user.permissions, PERMISSIONS.BET.CREATE)) {
-    throw new Error('Permission Required');
+    throw new APIError({
+      message: 'Permission Required',
+      status: 401
+    });
   }
   const player = await userRepository.findById(user._id);
 
   // Validate pick & bet
   if (isNaN(betDataOfUser.amount) || betDataOfUser.amount <= 0) {
-    throw new Error('Bet amount is not valid');
+    throw new APIError({
+      message: 'Bet amount is not valid',
+      status: 400
+    });
   } else if (betDataOfUser.amount > player.balance) {
-    throw new Error('Your balance is not enough');
+    throw new APIError({
+      message: 'Your balance is not enough',
+      status: 400
+    });
   }
 
   // Minus the player's money after bet
@@ -38,14 +51,20 @@ const create = async function(betDataOfUser, user) {
 
 const update = function(id, newObject, user) {
   if (!authHelper.authorization(user.permissions, PERMISSIONS.BET.UPDATE)) {
-    throw new Error('Permission Required');
+    throw new APIError({
+      message: 'Permission Required',
+      status: 401
+    });
   }
   return betRepository.update(bet._id, bet);
 }
 
 const remove = function(id, user) {
   if (!authHelper.authorization(user.permissions, PERMISSIONS.BET.DELETE)) {
-    throw new Error('Permission Required');
+    throw new APIError({
+      message: 'Permission Required',
+      status: 401
+    });
   }
   return betRepository.remove(id);
 }

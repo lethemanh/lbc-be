@@ -2,6 +2,7 @@ const yup = require('yup');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('../../config');
+const APIError = require('../../helper/APIError');
 const COMMON = require('../../constants/common');
 const { ROLE } = require('../../constants/role');
 const userService = require('../users/user.service');
@@ -17,12 +18,18 @@ const login = async (body) => {
   const existedUser = await userService.findByUsername(body.username);
 
   if (!existedUser) {
-    throw new Error('Username is not existed!');
+    throw new APIError({
+      message: 'Username is not existed!',
+      status: 404
+    });
   }
 
   const comparePasswordResult = await bcrypt.compareSync(body.password, existedUser.password);
   if (!comparePasswordResult) {
-    throw new Error('Password is not correct!');
+    throw new APIError({
+      message: 'Password is not correct!',
+      status: 400
+    });
   }
 
   const tokenData = {
@@ -53,27 +60,42 @@ const register = async (body) => {
   const existedUsername = await userService.findByUsername(body.username);
 
   if (existedUsername) {
-    throw new Error('User has been used!');
+    throw new APIError({
+      message: 'User has been used!',
+      status: 409
+    });
   }
 
   const existedEmail = await userService.findByEmail(body.email);
 
   if (existedEmail) {
-    throw new Error('Email has been used!');
+    throw new APIError({
+      message: 'Email has been used!',
+      status: 409
+    });
   }
 
   const existedPhonenumber = await userService.findByPhonenumber(body.phoneNumber);
 
   if (existedPhonenumber) {
-    throw new Error('Phone number has been used!');
+    throw new APIError({
+      message: 'Phone number has been used!',
+      status: 409
+    });
   }
 
   if (body.age < COMMON.ALLOWED_AGE) {
-    throw new Error('You must be 18+ to play this game!')
+    throw new APIError({
+      message: 'You must be 18+ to play this game!',
+      status: 403
+    });
   } 
 
   if (body.role && body.role !== ROLE.USER) {
-    throw new Error('Permission Required!')
+    throw new APIError({
+      message: 'Permission Required!',
+      status: 401
+    });
   }
 
   const salt = await bcrypt.genSaltSync(config.SALT_ROUNDS);
