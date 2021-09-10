@@ -73,12 +73,6 @@ const activateSocket = (io) => {
         timeInterval = undefined;
       }
     });
-    socket.on('message', (message) => {
-      io.emit('chat-message', {
-        message: message,
-        username: socket.user.username 
-      });
-    })
     socket.on('bet', async (data) => {
       const betData = await betService.create(data, socket.user);
       socket.broadcast.emit('broadcast-bet', {
