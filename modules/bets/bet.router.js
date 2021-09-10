@@ -13,6 +13,17 @@ router.get('/', async function(req, res) {
   }
 });
 
+router.get('/user-bet', async function(req, res) {
+  try {
+    const data = await betService.findBetProcessing(req.user);
+    res.status(200).json({data: data});
+  } catch (error) {
+    res.status(500).json({
+      message: error.message
+    });
+  }
+});
+
 router.post('/', async function(req, res) {
   try {
     const result = await betService.create(req.body, req.user);
