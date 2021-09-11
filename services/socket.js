@@ -41,11 +41,13 @@ const activateSocket = (io) => {
   }
 
   io.use((socket, next) => socketAuth(socket, next)).on('connection', (socket) => {
-    io.emit('connect-success', {
-      _id : socket.user._id,
-      username: socket.user.username,
-      type: MSGTYPE.CONNECT
-    });
+    if (!connectedUsers.includes(socket.user._id)) {
+      io.emit('connect-success', {
+        _id : socket.user._id,
+        username: socket.user.username,
+        type: MSGTYPE.CONNECT
+      });
+    }
     connectedUsers.push(socket.user._id);
     userIds = _.uniqBy(connectedUsers);
     userConnectedCounter++;
@@ -56,15 +58,17 @@ const activateSocket = (io) => {
       io.emit('chat-message', message);
     });
     socket.on('disconnect', () => {
-      io.emit('disconnect-success', 
-      {
-        _id : socket.user._id,
-        username: socket.user.username,
-        type: MSGTYPE.DISCONNECT
-      }
-      );
       indexDisconnectUser = connectedUsers.indexOf(socket.user._id);
       connectedUsers.splice(indexDisconnectUser, 1);
+      if (!connectedUsers.includes(socket.user._id)) {
+        io.emit('disconnect-success', 
+          {
+            _id : socket.user._id,
+            username: socket.user.username,
+            type: MSGTYPE.DISCONNECT
+          }
+        );
+      }
       userIds = _.uniqBy(connectedUsers);
       userConnectedCounter--;
       if (userConnectedCounter === 0) {
