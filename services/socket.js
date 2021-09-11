@@ -76,10 +76,10 @@ const activateSocket = (io) => {
     socket.on('bet', async (data) => {
       const betData = await betService.create(data, socket.user);
       socket.broadcast.emit('broadcast-bet', {
-        userId: betData?.users?._id,
+        userId: betData && betData.users ? betData.users._id : null,
         choice: betData.choice,
         amount: betData.amount,
-        username: betData?.users?.username
+        username: betData && betData.users ? betData.users.username: null
       });
     });
   });

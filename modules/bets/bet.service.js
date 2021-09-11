@@ -69,9 +69,20 @@ const remove = function(id, user) {
   return betRepository.remove(id);
 }
 
+const findBetProcessing = function(user) {
+  if (!authHelper.authorization(user.permissions, PERMISSIONS.BET.READ)) {
+    throw new APIError({
+      message: 'Permission Required',
+      status: 401
+    });
+  }
+  return betRepository.findBetProcessing(user._id);
+}
+
 module.exports = {
   find: find,
   create: create,
   update: update,
   remove: remove,
+  findBetProcessing: findBetProcessing
 };
